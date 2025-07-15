@@ -24,7 +24,7 @@ export function CardDemo() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Fazer login</CardTitle>
+        <CardTitle>Criar conta</CardTitle>
         <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
@@ -58,10 +58,10 @@ export function CardDemo() {
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full">
-          Login
+          Criar conta
         </Button>
         <Button variant="outline" className="w-full" asChild>
-          <a href="/sign-up">Criar conta</a>
+          <a href="/">Já possui uma conta?</a>
         </Button>
       </CardFooter>
     </Card>
