@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -11,16 +13,41 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="font-bold text-4xl mb-6 text-center">eu vou fazer um leilão</h1>
-      <CardDemo />
-    </div>
+    <>
+      <CardSignUp />
+    </>
   );
 }
 
-export function CardDemo() {
+export function CardSignUp() {
+  const schema = z.object({
+    email: z.email(),
+    password: z.string()
+      .min(6, "Deve conter ao menos 6 caracteres")
+      .regex(/[A-Z]/, "Deve conter ao menos 1 letra maiúscula")
+      .regex(/[a-z]/, "Deve conter ao menos 1 letra minúscula")
+      .regex(/[0-9]/, "Deve conter ao menos 1 número")
+      .regex(/[^A-Za-z0-9]/, "Deve conter ao menos 1 caractere especial"),
+  });
+
+  type FormData = z.infer<typeof schema>;
+
+    const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    mode: "onBlur",
+    criteriaMode: 'all',
+  });
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -33,25 +60,31 @@ export function CardDemo() {
         <form>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
+              <Label htmlFor="email">Nome</Label>
+              <Input
+                id="name"
+                type="text"
+                required
+              />
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="m@example.com"
+                placeholder="nome@email.com"
+                {...register("email")}
                 required
               />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
                 <Label htmlFor="password">Senha</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Esqueceu a senha?
-                </a>
+              <Input id="password" type="password" {...register("password")} required />
+              <div>
+                {errors.password?.types &&
+                  Object.values(errors.password.types).map((msg, index) => (
+                    <p key={index} className="text-red-500 text-sm whitespace-pre-line">
+                      {msg}
+                    </p>
+                  ))
+                }
               </div>
-              <Input id="password" type="password" required />
             </div>
           </div>
         </form>

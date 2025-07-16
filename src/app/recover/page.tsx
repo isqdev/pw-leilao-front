@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -13,13 +11,11 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function Home() {
-  redirect('/login')
+export default function RecoverPassword() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <h1 className="font-bold text-4xl mb-6 text-center">eu vou fazer um leilão</h1>
+    <>
       <CardDemo />
-    </div>
+    </>
   );
 }
 
@@ -27,7 +23,7 @@ export function CardDemo() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle>Fazer login</CardTitle>
+        <CardTitle>Recuperar senha</CardTitle>
         <CardDescription>
           Enter your email below to login to your account
         </CardDescription>
@@ -44,27 +40,15 @@ export function CardDemo() {
                 required
               />
             </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Senha</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                >
-                  Esqueceu a senha?
-                </a>
-              </div>
-              <Input id="password" type="password" required />
-            </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button type="submit" className="w-full">
-          Login
+          Recuperar senha
         </Button>
         <Button variant="outline" className="w-full" asChild>
-          <a href="/sign-up">Criar conta</a>
+          <a href="/">Cancelar</a>
         </Button>
       </CardFooter>
     </Card>
