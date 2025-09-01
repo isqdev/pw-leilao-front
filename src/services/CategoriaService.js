@@ -1,0 +1,21 @@
+import BaseService from "./BaseService"
+
+class CategoriaService extends BaseService {
+
+    constructor() {
+        super("/categoria")
+    }
+
+    async findAll() {
+        const resposta = await this.api.get(`${this.endPoint}`)
+        return resposta;
+    }
+
+    async find4() {
+        const resposta = await this.api.get(`${this.endPoint}/only4`)
+        return resposta;
+    }
+
+}
+
+export default CategoriaService

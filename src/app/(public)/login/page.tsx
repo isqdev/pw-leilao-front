@@ -1,3 +1,5 @@
+'use client'
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,6 +12,9 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react";
+import AutenticacaoService from "@/services/AutenticacaoService";
+import { useRouter } from "next/navigation"
 
 export default function Login() {
   return (
@@ -20,8 +25,33 @@ export default function Login() {
 }
 
 export function CardLogin() {
+  const [usuario, setUsuario] = useState({email:'', senha:''})
+  const autenticacaoService = new AutenticacaoService
+  const router = useRouter()
+
+  const handleChange = (e) => {
+    setUsuario({...usuario, [e.target.name]:e.target.value})
+  }
+
+  const login = async () => {
+    try {
+      const resposta = await autenticacaoService.login(usuario)
+      console.log(resposta.data);
+      if (resposta.status === 200 && resposta.data.token) {
+        localStorage.setItem("usuario", JSON.stringify(resposta.data))
+        document.cookie = `usuario=${encodeURIComponent(JSON.stringify(resposta.data))}; path=/; max-age=86400; samesite=strict`;
+        router.push("/home")
+      } else {
+        alert("Erro ao fazer login")
+      }
+      
+    } catch {
+
+    }
+  }
+
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full mx-auto max-w-sm">
       <CardHeader>
         <CardTitle>Fazer login</CardTitle>
         <CardDescription>
@@ -37,6 +67,9 @@ export function CardLogin() {
                 id="email"
                 type="email"
                 placeholder="nome@email.com"
+                name="email"
+                onChange={handleChange}
+                value={usuario.email}
                 required
               />
             </div>
@@ -50,13 +83,19 @@ export function CardLogin() {
                   Esqueceu a senha?
                 </a>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                id="password"
+                type="password"
+                name="senha"
+                onChange={handleChange}
+                value={usuario.senha}
+                required />
             </div>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" onClick={login}>
           Login
         </Button>
         <Button variant="outline" className="w-full" asChild>

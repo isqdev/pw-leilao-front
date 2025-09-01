@@ -49,7 +49,7 @@ export function CardSignUp() {
   });
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm mx-auto">
       <CardHeader>
         <CardTitle>Criar conta</CardTitle>
         <CardDescription>
@@ -94,7 +94,7 @@ export function CardSignUp() {
           Criar conta
         </Button>
         <Button variant="outline" className="w-full" asChild>
-          <a href="/">Já possui uma conta?</a>
+          <a href="/login">Já possui uma conta?</a>
         </Button>
       </CardFooter>
     </Card>
