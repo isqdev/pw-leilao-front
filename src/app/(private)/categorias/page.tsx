@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import CategoriaService from "@/services/CategoriaService";
@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Drawer,
   DrawerClose,
@@ -20,82 +20,88 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer"
+} from "@/components/ui/drawer";
 
 interface Categoria {
-  id?: number
-  nome: string
-  observacao: string
+  id?: number;
+  nome: string;
+  observacao: string;
 }
 
 export default function Categorias() {
-  const [categorias, setCategorias] = useState<Categoria[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(null)
-  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false)
-  const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState(false)
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(
+    null
+  );
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
+  const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState(false);
 
   const buscarCategorias = async () => {
     try {
-      setLoading(true)
-      setError(null)
-      
-      const categoriaService = new CategoriaService()
-      const resposta = await categoriaService.findAll()
-    
-      console.log('Categorias:', resposta.data)
-      
-      const categoriasData = resposta.data.content || resposta.data
-      
+      setLoading(true);
+      setError(null);
+
+      const categoriaService = new CategoriaService();
+      const resposta = await categoriaService.findAll();
+
+      console.log("Categorias:", resposta.data);
+
+      const categoriasData = resposta.data.content || resposta.data;
+
       if (Array.isArray(categoriasData)) {
-        setCategorias(categoriasData)
+        setCategorias(categoriasData);
       } else {
-        console.error('Resposta não é um array:', resposta.data)
-        setCategorias([])
-        setError('Formato de dados inválido')
+        console.error("Resposta não é um array:", resposta.data);
+        setCategorias([]);
+        setError("Formato de dados inválido");
       }
     } catch (err) {
-      console.error('Erro completo:', err)
-      setCategorias([])
-      setError('Erro ao carregar categorias')
+      console.error("Erro completo:", err);
+      setCategorias([]);
+      setError("Erro ao carregar categorias");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
-  
+  };
+
   useEffect(() => {
-    buscarCategorias()
-  }, [])
+    buscarCategorias();
+  }, []);
 
   const handleEdit = (categoria: Categoria) => {
-    setSelectedCategoria(categoria)
-    setIsEditDrawerOpen(true)
-  }
+    setSelectedCategoria(categoria);
+    setIsEditDrawerOpen(true);
+  };
 
   const handleDelete = async (id: number) => {
-    if (window.confirm('Tem certeza que deseja deletar esta categoria?')) {
+    if (window.confirm("Tem certeza que deseja deletar esta categoria?")) {
       try {
-        const categoriaService = new CategoriaService()
-        await categoriaService.delete(id)
-        buscarCategorias() // Recarregar lista
+        const categoriaService = new CategoriaService();
+        await categoriaService.delete(id);
+        buscarCategorias();
       } catch (error) {
-        console.error('Erro ao deletar categoria:', error)
-        alert('Erro ao deletar categoria')
+        console.error("Erro ao deletar categoria:", error);
+        alert("Erro ao deletar categoria");
       }
     }
-  }
+  };
 
   return (
     <div className="m-5 max-w-5xl mx-auto w-full">
-      <div className='bg-gray-100 w-full p-10 px-30 rounded-sm'>
-        <div className='max-w-4xl mx-auto'>
-          <h1 className='text-4xl font-bold justify-self-center mb-6'>Categorias</h1>
+      <div className="bg-gray-100 w-full p-10 px-30 rounded-sm">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold justify-self-center mb-6">
+            Categorias
+          </h1>
           <div className="flex justify-center mb-6">
-            <Button onClick={() => setIsCreateDrawerOpen(true)}>+ Nova categoria</Button>
+            <Button onClick={() => setIsCreateDrawerOpen(true)}>
+              + Nova categoria
+            </Button>
           </div>
-          
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10'>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-10">
             {loading ? (
               <div className="col-span-full text-center p-8">
                 <p>Carregando categorias...</p>
@@ -103,8 +109,8 @@ export default function Categorias() {
             ) : error ? (
               <div className="col-span-full text-center p-8">
                 <p className="text-red-500">{error}</p>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   className="mt-4"
                   onClick={buscarCategorias}
                 >
@@ -112,28 +118,37 @@ export default function Categorias() {
                 </Button>
               </div>
             ) : Array.isArray(categorias) && categorias.length > 0 ? (
-              categorias.map((categoria, index) => 
-                <div key={index} className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+              categorias.map((categoria, index) => (
+                <div
+                  key={index}
+                  className="bg-white p-4 rounded-xl shadow-sm hover:shadow-md transition-shadow"
+                >
                   <h3 className="font-bold text-lg mb-2">{categoria.nome}</h3>
-                  <p className="text-gray-600 text-sm mb-3 line-clamp-3">{categoria.observacao}</p>
+                  <p className="text-gray-600 text-sm mb-3 line-clamp-3">
+                    {categoria.observacao}
+                  </p>
                   <div className="flex items-center justify-end">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm">Ação</Button>
+                        <Button variant="outline" size="sm">
+                          Ação
+                        </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
                         <DropdownMenuItem onClick={() => handleEdit(categoria)}>
                           Editar
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleDelete(categoria.id!)}>
+                        <DropdownMenuItem
+                          onClick={() => handleDelete(categoria.id!)}
+                        >
                           Deletar
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
                 </div>
-              )
+              ))
             ) : (
               <div className="col-span-full text-center p-8">
                 <p>Nenhuma categoria encontrada</p>
@@ -143,88 +158,86 @@ export default function Categorias() {
         </div>
       </div>
 
-      {/* Modal de Edição */}
-      <EditCategoriaModal 
+      <EditCategoriaModal
         categoria={selectedCategoria}
         isOpen={isEditDrawerOpen}
         onClose={() => {
-          setIsEditDrawerOpen(false)
-          setSelectedCategoria(null)
+          setIsEditDrawerOpen(false);
+          setSelectedCategoria(null);
         }}
         onSuccess={() => {
-          buscarCategorias() 
-          setIsEditDrawerOpen(false)
-          setSelectedCategoria(null)
+          buscarCategorias();
+          setIsEditDrawerOpen(false);
+          setSelectedCategoria(null);
         }}
       />
 
-      {/* Modal de Criação */}
-      <CreateCategoriaModal 
+      <CreateCategoriaModal
         isOpen={isCreateDrawerOpen}
         onClose={() => setIsCreateDrawerOpen(false)}
         onSuccess={() => {
-          buscarCategorias() 
-          setIsCreateDrawerOpen(false)
+          buscarCategorias();
+          setIsCreateDrawerOpen(false);
         }}
       />
     </div>
   );
 }
 
-function EditCategoriaModal({ 
-  categoria, 
-  isOpen, 
-  onClose, 
-  onSuccess 
-}: { 
-  categoria: Categoria | null
-  isOpen: boolean
-  onClose: () => void
-  onSuccess: () => void
+function EditCategoriaModal({
+  categoria,
+  isOpen,
+  onClose,
+  onSuccess,
+}: {
+  categoria: Categoria | null;
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
 }) {
   const [formData, setFormData] = useState({
-    nome: '',
-    observacao: ''
-  })
-  const [loading, setLoading] = useState(false)
+    nome: "",
+    observacao: "",
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (categoria) {
       setFormData({
-        nome: categoria.nome || '',
-        observacao: categoria.observacao || ''
-      })
+        nome: categoria.nome || "",
+        observacao: categoria.observacao || "",
+      });
     }
-  }, [categoria])
+  }, [categoria]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async () => {
-    if (!categoria) return
+    if (!categoria) return;
 
     try {
-      setLoading(true)
-      const categoriaService = new CategoriaService()
-      
+      setLoading(true);
+      const categoriaService = new CategoriaService();
+
       await categoriaService.update({
         id: categoria.id,
-        ...formData
-      })
+        ...formData,
+      });
 
-      console.log('Categoria atualizada com sucesso')
-      onSuccess()
+      console.log("Categoria atualizada com sucesso");
+      onSuccess();
     } catch (error) {
-      console.error('Erro ao editar categoria:', error)
-      alert('Erro ao editar categoria')
+      console.error("Erro ao editar categoria:", error);
+      alert("Erro ao editar categoria");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
@@ -235,7 +248,7 @@ function EditCategoriaModal({
             Edite as informações da categoria abaixo
           </DrawerDescription>
         </DrawerHeader>
-        
+
         <div className="px-4 py-2 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="edit-nome">Nome</Label>
@@ -248,7 +261,7 @@ function EditCategoriaModal({
               placeholder="Digite o nome da categoria"
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="edit-observacao">Observação</Label>
             <Input
@@ -263,12 +276,8 @@ function EditCategoriaModal({
         </div>
 
         <DrawerFooter>
-          <Button 
-            onClick={handleSubmit}
-            disabled={loading}
-            className="w-full"
-          >
-            {loading ? 'Salvando...' : 'Salvar Alterações'}
+          <Button onClick={handleSubmit} disabled={loading} className="w-full">
+            {loading ? "Salvando..." : "Salvar Alterações"}
           </Button>
           <DrawerClose asChild>
             <Button variant="outline" className="w-full">
@@ -278,56 +287,56 @@ function EditCategoriaModal({
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
 
-function CreateCategoriaModal({ 
-  isOpen, 
-  onClose, 
-  onSuccess 
-}: { 
-  isOpen: boolean
-  onClose: () => void
-  onSuccess: () => void
+function CreateCategoriaModal({
+  isOpen,
+  onClose,
+  onSuccess,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
 }) {
   const [formData, setFormData] = useState({
-    nome: '',
-    observacao: ''
-  })
-  const [loading, setLoading] = useState(false)
+    nome: "",
+    observacao: "",
+  });
+  const [loading, setLoading] = useState(false);
 
   // Limpar formulário quando fechar
   useEffect(() => {
     if (!isOpen) {
       setFormData({
-        nome: '',
-        observacao: ''
-      })
+        nome: "",
+        observacao: "",
+      });
     }
-  }, [isOpen])
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async () => {
     try {
-      setLoading(true)
-      const categoriaService = new CategoriaService()
-      
-      const response = await categoriaService.create(formData)
-      console.log('Categoria criada com sucesso:', response)
-      onSuccess()
+      setLoading(true);
+      const categoriaService = new CategoriaService();
+
+      const response = await categoriaService.create(formData);
+      console.log("Categoria criada com sucesso:", response);
+      onSuccess();
     } catch (error) {
-      console.error('Erro ao criar categoria:', error)
-      alert('Erro ao criar categoria')
+      console.error("Erro ao criar categoria:", error);
+      alert("Erro ao criar categoria");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
@@ -338,7 +347,7 @@ function CreateCategoriaModal({
             Preencha os dados da nova categoria abaixo
           </DrawerDescription>
         </DrawerHeader>
-        
+
         <div className="px-4 py-2 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="create-nome">Nome</Label>
@@ -352,7 +361,7 @@ function CreateCategoriaModal({
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="create-observacao">Observação</Label>
             <Input
@@ -368,12 +377,12 @@ function CreateCategoriaModal({
         </div>
 
         <DrawerFooter>
-          <Button 
+          <Button
             onClick={handleSubmit}
             disabled={loading || !formData.nome || !formData.observacao}
             className="w-full"
           >
-            {loading ? 'Criando...' : 'Criar Categoria'}
+            {loading ? "Criando..." : "Criar Categoria"}
           </Button>
           <DrawerClose asChild>
             <Button variant="outline" className="w-full">
@@ -383,6 +392,5 @@ function CreateCategoriaModal({
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
-  )
+  );
 }
-
