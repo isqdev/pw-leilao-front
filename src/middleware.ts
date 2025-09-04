@@ -4,9 +4,9 @@ const publicRoutes = [
     { path: '/login', whenAuthenticated: 'redirect'},
     { path: '/sign-up', whenAuthenticated: 'redirect'},
     { path: '/', whenAuthenticated: 'next'},
-    { path: '/home', whenAuthenticated: 'next'},
-    { path: '/leiloes', whenAuthenticated: 'next'},
-    { path: '/categorias', whenAuthenticated: 'next'},
+    // { path: '/home', whenAuthenticated: 'next'},
+    // { path: '/leiloes', whenAuthenticated: 'next'},
+    // { path: '/categorias', whenAuthenticated: 'next'},
 ] as const
 
 const REDIRECT_WHEN_NOT_AUTHENTICATED_ROUTE = "/login"

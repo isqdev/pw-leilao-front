@@ -61,10 +61,10 @@ export default function Home() {
 
     return (
     <div className="m-5 max-w-5xl mx-auto w-full">
-      <div className=' bg-gray-100 w-full p-10 px-30 rounded-sm mb-10'>
+      <div className=' bg-gray-100 w-full p-10 sm:px-10 md:px-30 rounded-sm mb-10'>
         <div className='max-w-4xl mx-auto'>
         <h1 className='text-4xl font-bold justify-self-center'>Leilões</h1>
-        <div className='grid grid-cols-2 gap-3 my-10'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 my-10'>
             {leiloes ? leiloes.map((leilao, index) => 
             <div key={index} className="bg-white p-2 rounded-xl">
               <p className="font-bold">{leilao.titulo}</p>
@@ -80,10 +80,10 @@ export default function Home() {
         </div>
         </div>
       </div>
-      <div className=' bg-gray-100 w-full p-10 px-30 rounded-sm'>
+      <div className=' bg-gray-100 w-full p-10 sm:px-10 md:px-30 rounded-sm'>
         <div className='max-w-4xl mx-auto'>
         <h1 className='text-4xl font-bold justify-self-center'>Categorias</h1>
-        <div className='grid grid-cols-2 gap-3 my-10'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 my-10'>
           {categorias ? categorias.map((categoria, index) => 
             <div key={index} className="bg-white p-2 rounded-xl">
               <p className="font-bold">{categoria.nome}</p>
