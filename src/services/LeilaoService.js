@@ -10,6 +10,11 @@ class LeilaoService extends BaseService {
         const resposta = await this.api.get(`${this.endPoint}`)
         return resposta;
     }
+    
+    async findAllPreview() {
+        const resposta = await this.api.get(`${this.endPoint}/previews`)
+        return resposta;
+    }
 
     async findByCategory(id) {
         const resposta = await this.api.get(`${this.endPoint}/category/${id}`)
